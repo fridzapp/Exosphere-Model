@@ -52,7 +52,7 @@ pro Irrandiance, body, UTC, Time_range, directory, Flux, debug=debug
       PRINT, 'Irradiance.pro Error index: ', Error_status
       PRINT, 'Irradiance.pro Error message: ', !ERROR_STATE.MSG
       print, '--> Using the default date of Jan 1, 2010 for solar drivers' 
-      restore, strcompress(directory + '\Solar_Spectral_Irradiance\Default_Solar_Flux.sav')
+      restore, strcompress(directory + ''+path_sep()+'Solar_Spectral_Irradiance'+path_sep()+'Default_Solar_Flux.sav')
       goto, use_default_flux
       CATCH, /CANCEL
   ENDIF
@@ -128,7 +128,7 @@ pro Irrandiance, body, UTC, Time_range, directory, Flux, debug=debug
     if (ephemeris_time lt 1.0242726e+008) or (ephemeris_time gt current_time) then begin 
       print, 'No solar flux measurements exist for the date ', UTC
       print, '--> Using the default date of Jan 1, 2010 for solar drivers' 
-      restore, strcompress(directory + '\Solar_Spectral_Irradiance\Default_Solar_Flux.sav')
+      restore, strcompress(directory + ''+path_sep()+'Solar_Spectral_Irradiance'+path_sep()+'Default_Solar_Flux.sav')
       goto, use_default_flux
     endif
     
@@ -145,13 +145,13 @@ pro Irrandiance, body, UTC, Time_range, directory, Flux, debug=debug
         ;get the irrandiance from SEE using the LASP LISIRD API
         SEE = webget(strcompress('http://lasp.colorado.edu/lisird/tss/timed_see_ssi.csv?wavelength,irradiance&time~' + strmid(Irradiance_date, 0, 10)))
           result = STRSPLIT(STRJOIN(SEE.text, ' ', /single), ' ', /extract)
-          openw, lun, strcompress(directory + 'Solar_Spectral_Irradiance\SEE.txt'), /get_lun
+          openw, lun, strcompress(directory + 'Solar_Spectral_Irradiance'+path_sep()+'SEE.txt'), /get_lun
           for i = 4, n_elements(result)-2 do begin
             printf, lun, result[i]
           endfor
           close, lun
           free_lun, lun
-        READCOL,strcompress(directory + 'Solar_Spectral_Irradiance\SEE.txt'), Format='A,A', wavelength, intensity, /SILENT  
+        READCOL,strcompress(directory + 'Solar_Spectral_Irradiance'+path_sep()+'SEE.txt'), Format='A,A', wavelength, intensity, /SILENT  
         start = where(wavelength eq '0.5')
         SEE_wavelength = double(wavelength[start:*])                    ;in nm 
         SEE_intensity = double(intensity[start:*]) * 1.e3               ;flux in mW/m^2/nm (using a W to mW conversion)
@@ -160,13 +160,13 @@ pro Irrandiance, body, UTC, Time_range, directory, Flux, debug=debug
           SORCE = webget(strcompress('http://lasp.colorado.edu/lisird/tss/sorce_ssi.csv?wavelength,irradiance&time~' + strmid(Irradiance_date, 0, 10)))
           ;Write the SORCE data to an ASCII text file
             result = STRSPLIT(STRJOIN(SORCE.text, ' ', /single), ' ', /extract)
-            openw, lun, strcompress(directory + 'Solar_Spectral_Irradiance\SORCE.txt'), /get_lun
+            openw, lun, strcompress(directory + 'Solar_Spectral_Irradiance'+path_sep()+'SORCE.txt'), /get_lun
             for i = 4, n_elements(result)-2 do begin
               printf, lun, result[i]
             endfor
             close, lun
             free_lun, lun
-          READCOL,strcompress(directory + 'Solar_Spectral_Irradiance\SORCE.txt'), Format='A,A', wavelength, intensity, /SILENT  
+          READCOL,strcompress(directory + 'Solar_Spectral_Irradiance'+path_sep()+'SORCE.txt'), Format='A,A', wavelength, intensity, /SILENT  
           start = where(wavelength eq '0.50')
           SORCE_wavelength = double(wavelength[start:*])                    ;in nm 
           SORCE_intensity = double(intensity[start:*]) * 1.e3               ;flux in mW/m^2/nm (using a W to mW conversion)
@@ -189,13 +189,13 @@ pro Irrandiance, body, UTC, Time_range, directory, Flux, debug=debug
         ;get the irrandiance from SEE using the LASP LISIRD API
         SEE = webget(strcompress('http://lasp.colorado.edu/lisird/tss/timed_see_ssi.csv?wavelength,irradiance&time~' + strmid(Irradiance_date, 0, 10)))
           result = STRSPLIT(STRJOIN(SEE.text, ' ', /single), ' ', /extract)
-          openw, lun, strcompress(directory + 'Solar_Spectral_Irradiance\SEE_before.txt'), /get_lun
+          openw, lun, strcompress(directory + 'Solar_Spectral_Irradiance'+path_sep()+'SEE_before.txt'), /get_lun
           for i = 4, n_elements(result)-2 do begin
             printf, lun, result[i]
           endfor
           close, lun
           free_lun, lun
-        READCOL, strcompress(directory + 'Solar_Spectral_Irradiance\SEE_before.txt'), Format='A,A', wavelength, intensity, /SILENT  
+        READCOL, strcompress(directory + 'Solar_Spectral_Irradiance'+path_sep()+'SEE_before.txt'), Format='A,A', wavelength, intensity, /SILENT  
         start = where(wavelength eq '0.5')
         SEE_before_wavelength = double(wavelength[start:*])                    ;in nm 
         SEE_before_intensity = double(intensity[start:*]) * 1.e3               ;flux in mW/m^2/nm (using a W to mW conversion)
@@ -204,13 +204,13 @@ pro Irrandiance, body, UTC, Time_range, directory, Flux, debug=debug
           SORCE = webget(strcompress('http://lasp.colorado.edu/lisird/tss/sorce_ssi.csv?wavelength,irradiance&time~' + strmid(Irradiance_date, 0, 10)))
           ;Write the SORCE data to an ASCII text file
             result = STRSPLIT(STRJOIN(SORCE.text, ' ', /single), ' ', /extract)
-            openw, lun, strcompress(directory + 'Solar_Spectral_Irradiance\SORCE_before.txt'), /get_lun
+            openw, lun, strcompress(directory + 'Solar_Spectral_Irradiance'+path_sep()+'SORCE_before.txt'), /get_lun
             for i = 4, n_elements(result)-2 do begin
               printf, lun, result[i]
             endfor
             close, lun
             free_lun, lun
-          READCOL,strcompress(directory + 'Solar_Spectral_Irradiance\SORCE_before.txt'), Format='A,A', wavelength, intensity, /SILENT  
+          READCOL,strcompress(directory + 'Solar_Spectral_Irradiance'+path_sep()+'SORCE_before.txt'), Format='A,A', wavelength, intensity, /SILENT  
           start = where(wavelength eq '0.50')
           SORCE_before_wavelength = double(wavelength[start:*])                    ;in nm 
           SORCE_before_intensity = double(intensity[start:*]) * 1.e3               ;flux in mW/m^2/nm (using a W to mW conversion)
@@ -222,13 +222,13 @@ pro Irrandiance, body, UTC, Time_range, directory, Flux, debug=debug
         ;get the irrandiance from SEE using the LASP LISIRD API
         SEE = webget(strcompress('http://lasp.colorado.edu/lisird/tss/timed_see_ssi.csv?wavelength,irradiance&time~' + strmid(Irradiance_date, 0, 10)))
           result = STRSPLIT(STRJOIN(SEE.text, ' ', /single), ' ', /extract)
-          openw, lun, strcompress(directory + 'Solar_Spectral_Irradiance\SEE_after.txt'), /get_lun
+          openw, lun, strcompress(directory + 'Solar_Spectral_Irradiance'+path_sep()+'SEE_after.txt'), /get_lun
           for i = 4, n_elements(result)-2 do begin
             printf, lun, result[i]
           endfor
           close, lun
           free_lun, lun
-        READCOL, strcompress(directory + 'Solar_Spectral_Irradiance\SEE_after.txt'), Format='A,A', wavelength, intensity, /SILENT  
+        READCOL, strcompress(directory + 'Solar_Spectral_Irradiance'+path_sep()+'SEE_after.txt'), Format='A,A', wavelength, intensity, /SILENT  
         start = where(wavelength eq '0.5')
         SEE_after_wavelength = double(wavelength[start:*])                    ;in nm 
         SEE_after_intensity = double(intensity[start:*]) * 1.e3               ;flux in mW/m^2/nm (using a W to mW conversion)
@@ -237,13 +237,13 @@ pro Irrandiance, body, UTC, Time_range, directory, Flux, debug=debug
           SORCE = webget(strcompress('http://lasp.colorado.edu/lisird/tss/sorce_ssi.csv?wavelength,irradiance&time~' + strmid(Irradiance_date, 0, 10)))
           ;Write the SORCE data to an ASCII text file
             result = STRSPLIT(STRJOIN(SORCE.text, ' ', /single), ' ', /extract)
-            openw, lun, strcompress(directory + 'Solar_Spectral_Irradiance\SORCE_after.txt'), /get_lun
+            openw, lun, strcompress(directory + 'Solar_Spectral_Irradiance'+path_sep()+'SORCE_after.txt'), /get_lun
             for i = 4, n_elements(result)-2 do begin
               printf, lun, result[i]
             endfor
             close, lun
             free_lun, lun
-          READCOL,strcompress(directory + 'Solar_Spectral_Irradiance\SORCE_after.txt'), Format='A,A', wavelength, intensity, /SILENT  
+          READCOL,strcompress(directory + 'Solar_Spectral_Irradiance'+path_sep()+'SORCE_after.txt'), Format='A,A', wavelength, intensity, /SILENT  
           start = where(wavelength eq '0.50')
           SORCE_after_wavelength = double(wavelength[start:*])                    ;in nm 
           SORCE_after_intensity = double(intensity[start:*]) * 1.e3         ;flux in mW/m^2/nm (using a W to mW conversion)
@@ -346,7 +346,7 @@ pro Irrandiance, body, UTC, Time_range, directory, Flux, debug=debug
       
       ;if the coverage is incomplete, fill in any gaps with the default solar flux on Jan 1, 2010.
       flux_on_UTC = flux
-      restore, strcompress(directory + '\Solar_Spectral_Irradiance\Default_Solar_Flux.sav')
+      restore, strcompress(directory + ''+path_sep()+'Solar_Spectral_Irradiance'+path_sep()+'Default_Solar_Flux.sav')
       default_flux = flux 
       match, reform(default_flux[0,*]), reform(flux_on_UTC[0,*]), sub_default_flux, sub_flux_on_UTC, Count = Count_overlap
       if count_overlap lt n_elements(default_flux[0,*]) then begin       
@@ -397,6 +397,6 @@ end
 
 ;;get the flux from SEE, use the time at the mid-piont of the integration  
 ;  cspice_et2utc, ephemeris_time - ((maxtime-mintime)/2. + mintime), 'ISOC', 0, Irradiance_date ;get the day of year format for this time. 
-;  plot_see, round(date_conv(Irradiance_date)), planet = 'Earth', file = strcompress(directory + '\Solar_Spectral_Irradiance\' + Irradiance_data), $
+;  plot_see, round(date_conv(Irradiance_date)), planet = 'Earth', file = strcompress(directory + ''+path_sep()+'Solar_Spectral_Irradiance'+path_sep()+'' + Irradiance_data), $
 ;    type = 'SP', data = SEE ;flux is a daily average, rounded to the nearest day 
 ;  !psym = 0 ;LASP plot_see code sets the plot symbol variable, reset to default  

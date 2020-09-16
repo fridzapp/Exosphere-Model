@@ -42,7 +42,7 @@ ENDCASE
 
 CASE test_particle OF
   'H': begin
-    READCOL, strcompress(directory + '\Cross-Sections\Photo\Huebner_2011\H_to_H+.txt'), $
+    READCOL, strcompress(directory + ''+path_sep()+'Cross-Sections'+path_sep()+'Photo'+path_sep()+'Huebner_2011'+path_sep()+'H_to_H+.txt'), $
       Format='A,A', Cross_wavelength, photo_cross_sec, /SILENT  
     start = max(where(Cross_wavelength eq 'Lambda'))+1
     Cross_wavelength = Cross_wavelength[start:*] / 10. ;convert from Angstoms to nm, solar irradiance from SEE/SORCE are in nm
@@ -51,7 +51,7 @@ CASE test_particle OF
       xtitle = 'nm', ytitle = 'cm!u2!n'
   end
   'Na': begin
-    READCOL, strcompress(directory + '\Cross-Sections\Photo\Huebner_2011\Na_to_Na+_theoretical.txt'), $
+    READCOL, strcompress(directory + ''+path_sep()+'Cross-Sections'+path_sep()+'Photo'+path_sep()+'Huebner_2011'+path_sep()+'Na_to_Na+_theoretical.txt'), $
       Format='A,A', Cross_wavelength, photo_cross_sec, /SILENT  
     start = max(where(Cross_wavelength eq 'Lambda'))+1
     Cross_wavelength = Cross_wavelength[start:*] / 10. ;convert from Angstoms to nm, solar irradiance from SEE/SORCE are in nm
@@ -67,7 +67,7 @@ CASE test_particle OF
     ;In short, the validity of my photo-ionization calucaltion hinges on Huebner's intepretation of Chang & Kelly (1975)  
     view_discrepancy = 1
     if view_discrepancy then begin
-      READCOL, strcompress(directory + '\Cross-Sections\Photo\Huebner_2011\Na_to_Na+_theoretical.txt'), $
+      READCOL, strcompress(directory + ''+path_sep()+'Cross-Sections'+path_sep()+'Photo'+path_sep()+'Huebner_2011'+path_sep()+'Na_to_Na+_theoretical.txt'), $
         Format='A,A', Cross_wavelength, photo_cross_sec, /SILENT  
       start = max(where(Cross_wavelength eq 'Lambda'))+1
       Cross_wavelength = Cross_wavelength[start:*] / 10. ;convert from Angstoms to nm, solar irradiance from SEE/SORCE are in nm
@@ -77,7 +77,7 @@ CASE test_particle OF
         Background=cgColor('white'), thick = 2., charthick = 1.6, charsize = 1.6
       ;Huebner's cross-sections when binned to his solar flux wavelengths seem high. 
       ;Plot his interpolated binned cross-sections in RED, and his unbinned data at quoted from Chang & Kelly (1975)
-        READCOL, strcompress(directory + '\Cross-Sections\Photo\Huebner_2011\Na_to_Na+_theoretical_lambda_binned.txt'), $
+        READCOL, strcompress(directory + ''+path_sep()+'Cross-Sections'+path_sep()+'Photo'+path_sep()+'Huebner_2011'+path_sep()+'Na_to_Na+_theoretical_lambda_binned.txt'), $
         Format='A,A', Cross_wavelength_binned, photo_cross_sec_binned, /SILENT  
         start = max(where(Cross_wavelength_binned eq 'Lambda'))+1
         Cross_wavelength_binned = Cross_wavelength_binned[start:*] / 10. ;convert from Angstoms to nm, solar irradiance from SEE/SORCE are in nm
@@ -88,7 +88,7 @@ CASE test_particle OF
      endif
    end
    'Mg': begin
-     READCOL, strcompress(directory + '\Cross-Sections\Photo\Huebner_2011\Mg_to_Mg+.txt'), $
+     READCOL, strcompress(directory + ''+path_sep()+'Cross-Sections'+path_sep()+'Photo'+path_sep()+'Huebner_2011'+path_sep()+'Mg_to_Mg+.txt'), $
        Format='A,A', Cross_wavelength, photo_cross_sec, /SILENT
      start = max(where(Cross_wavelength eq 'Lambda'))+1
      Cross_wavelength = Cross_wavelength[start:*] / 10. ;convert from Angstoms to nm, solar irradiance from SEE/SORCE are in nm
@@ -97,7 +97,7 @@ CASE test_particle OF
        xtitle = 'nm', ytitle = 'cm!u2!n'
    end  
    'K': begin
-     READCOL, strcompress(directory + '\Cross-Sections\Photo\Huebner_2011\K_to_K+.txt'), $
+     READCOL, strcompress(directory + ''+path_sep()+'Cross-Sections'+path_sep()+'Photo'+path_sep()+'Huebner_2011'+path_sep()+'K_to_K+.txt'), $
        Format='A,A', Cross_wavelength, photo_cross_sec, /SILENT
      start = max(where(Cross_wavelength eq 'Lambda'))+1
      Cross_wavelength = Cross_wavelength[start:*] / 10. ;convert from Angstoms to nm, solar irradiance from SEE/SORCE are in nm
@@ -106,7 +106,7 @@ CASE test_particle OF
        xtitle = 'nm', ytitle = 'cm!u2!n'
    end
    'H2O': begin
-      READCOL, strcompress(directory + '\Cross-Sections\Photo\Huebner_2011\H2O_All.txt'), $
+      READCOL, strcompress(directory + ''+path_sep()+'Cross-Sections'+path_sep()+'Photo'+path_sep()+'Huebner_2011'+path_sep()+'H2O_All.txt'), $
         Format='A,A,A,A,A,A,A,A,A', Cross_wavelength, photo_cross_sec, H_OH, H2_O1D, O_H_H, OHplus_H, Oplus_H2, Hplus_OH, H2Oplus,  /SILENT  
       start = max(where(Cross_wavelength eq 'Lambda')) + 1
       Cross_wavelength = Cross_wavelength[start:*] / 10. ;convert from Angstoms to nm, solar irradiance from SEE/SORCE are in nm

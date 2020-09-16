@@ -65,7 +65,7 @@ Pro LOAD_LINE_DATA, LINE
   CASE spectrum OF  
     'Kurucz_2005_irradthuwl.dat': begin
         ; Read in a solar spectrum
-        SOLAR_SPECTRUM_FILE = directory + '\Solar_Spectral_Irradiance\Kurucz\' + spectrum  ; Solar Spectrum at 1AU in W/m2/nm
+        SOLAR_SPECTRUM_FILE = directory + ''+path_sep()+'Solar_Spectral_Irradiance'+path_sep()+'Kurucz'+path_sep()+'' + spectrum  ; Solar Spectrum at 1AU in W/m2/nm
         READCOL, SOLAR_SPECTRUM_FILE, F='F,F', WL_nm, flux, STRINGSKIP = '#', /NAN, /Silent, Numline = numline, skipline = skipline ;flux is in W/m2/nm
     
         ; change flux units from W/m^2/nm to photons / (cm^2 s A)
@@ -75,7 +75,7 @@ Pro LOAD_LINE_DATA, LINE
         WL_A = temporary(WL_nm) * 10.                                                               ; Wavelength from nm into angstroms
       end
     'sao2010.solref.converted.txt': begin
-        SOLAR_SPECTRUM_FILE = directory + '\Solar_Spectral_Irradiance\Kurucz\' + 'sao2010.solref.converted.txt'  ; WL in nm, flux in Photons s-1 cm-2 nm-1 at 1AU
+        SOLAR_SPECTRUM_FILE = directory + ''+path_sep()+'Solar_Spectral_Irradiance'+path_sep()+'Kurucz'+path_sep()+'' + 'sao2010.solref.converted.txt'  ; WL in nm, flux in Photons s-1 cm-2 nm-1 at 1AU
         READCOL, SOLAR_SPECTRUM_FILE, F='F,F', WL_nm, flux, STRINGSKIP = '#', /NAN, /Silent 
         flux = flux / 10.                                                                           ; photons / (cm^2 s nm) to photons / (cm^2 s A)
         WL_A = temporary(WL_nm) * 10.                                                               ; Wavelength from nm into angstroms
